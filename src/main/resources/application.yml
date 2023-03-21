@@ -1,0 +1,54 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 120m
+    encoding:
+      charset: UTF-8
+      force: true
+  tomcat:
+    threads:
+      min-spare: 30
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost/~/kakaobank_test
+      driver-class-name: org.h2.Driver
+      username: SA
+      password:
+  redis:
+    data:
+      host: localhost
+      port: 6379
+#  expire:
+#    products: 5000
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql : true
+logging.level:
+  org.hibernate.SQL: debug
+api:
+  kakao:
+    blog:
+      reqUri: https://dapi.kakao.com/v2/search/blog
+    authorization: KakaoAK 7905d8d8bf472226bd6f6c0900b0b4b5
+  naver:
+    blog:
+      reqUri: https://openapi.naver.com/v1/search/blog.json
+    clientId: A6Kk8FWlTT51IPPsutdZ
+    clientSecret: U6ez5hu5fu
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        requestVolumeThreshold: 10
+        errorThresholdPercentage: 70
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
