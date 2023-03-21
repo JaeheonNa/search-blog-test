@@ -1,2 +1,165 @@
 # search-blog-test
-카카오톡 블로그 검색 API
+## 목차
+1. [카카오톡 블로그 검색을 위한 Combo 조회용 API](#1카카오톡-블로그-검색을-위한-Combo-조회용-API)
+2. [카카오톡 블로그 조회용 API](#2카카오톡-블로그-조회용-API)
+3. [사용 오픈 소스](#3사용-오픈-소스)
+
+
+## 1. 카카오톡 블로그 검색을 위한 Combo 조회용 API
+### 1.1. 기본 정보
+|URL|HTTP 메서드|   
+|:--|:--------|   
+|localhost:8080/search/blog/combo|GET|   
+### 1.2. 요청 데이터
+|NAME|TYPE|DESCRIPTION|REQUIRED|   
+|:---|:---|:----------|:-------|   
+
+### 1.3. 응답 데이터
+|NAME|TYPE|DESCRIPTION|   
+|:---|:---|:----------|   
+|SizeCombo|list<number>|한 페이지에 표시할 컨텐츠 수. 현재 10부터 10단위로 50까지 출력|   
+|SortCombo|list<string>|정렬 순서. 정확순: accuracy, 최신순: recency|   
+
+### 1.4. Sample
+#### 1.4.1. 요청
+```
+curl -v -X GET "http://localhost:8080/search/blog/combo"
+```
+#### 1.4.2. 응답
+```
+{
+    "SizeCombo": [10, 20, 30, 40, 50],
+    "SortCombo": [ "accuracy", "recency"]
+}
+```
+  
+## 2. 카카오톡 블로그 조회용 API
+### 2.1. 기본 정보
+|URL|HTTP 메서드|   
+|:--|:--------|   
+|localhost:8080/search/blog|GET|   
+### 2.2. 요청 데이터
+|NAME|TYPE|DESCRIPTION|REQUIRED|  
+|:---|:---|:----------|:-------|   
+|query|string|검색어|true|   
+|page|number|결과 페이지 번호, 기본값 1|false|   
+|sort|number|결과 문서 정렬 방식, accuracy(정확도순) 또는 recency(최신순), 기본 값 accuracy|false|   
+|size|number|한 페이지에 보여질 문서 수, 10~50까지 10단위로 제공, 기본값 10|false|   
+|apiType|string|요청할 API, kakao(카카오API) 또는 naver(네이버API), 기본값 kakao|false|   
+
+### 2.3. 응답 데이터
+|NAME|TYPE|DESCRIPTION|   
+|:---|:---|:----------|   
+|** blogSearchResult(JSON Array) **|||   
+|** documents(JSON Array) **|||   
+|blogname|string|블로그의 이름|   
+|contents|string|블로그 글 요약|   
+|datetime|string|블로그 글 작성시간, ISO 8601 [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].000+[tz], 네이버 검색 시 yyyyMMdd|   
+|thumbnail|string|검색 시스템에서 추출한 대표 미리보기 이미지 URL, 미리보기 크기 및 화질은 변경될 수 있음, 네이버 검색 시 null|   
+|title|string|블로그 글 제목|   
+|url|string|블로그 글 URL|   
+|** meta(JSON Array) **|||   
+|total_count|number|검색된 문서 수|   
+|pageable_count|number|total_count 중 노출 가능 문서 수, 네이버 검색 시 null|   
+|is_end|boolean|현재 페이지가 마지막 페이지인지 여부, 값이 false면 page를 증가시켜 다음 페이지를 요청할 수 있음|   
+|** requestParam(JSON Array) **|||   
+|query|string|검색어 요청값|   
+|page|number|결과 페이지 번호 요청값|   
+|sort|number|결과 문서 정렬 방식 요청값|   
+|size|number|한 페이지에 보여질 문서 수 요청값|   
+|apiType|string|요청 API 타입 요청값|   
+|** searchRankingResult(JSON Array) **|||   
+|keyword|string|인기 검색어, 최근 24시간 기준|   
+|searchCount|number|검색량, 최근 24시간 기준|   
+|ranking|number|검색 순위, 최근 24시간 기준|   
+
+### 2.4. Sample
+#### 2.4.1. 요청
+```
+curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&page=1&sort=accuracy"
+```
+#### 2.4.2. 응답
+```
+{
+    "blogSearchResult": {
+        "documents": [
+            {
+                "blogname": "하운드쉐어",
+                "contents": "그랬던 것처럼 보증금 낼 돈이 500만 원이 전부라면 어떻게 해야 할까요. 5분만 아니 3분만 보시면 두 번째 집으로 이사 가실 수 있게 도와드리겠습니다. <b>카카오</b><b>뱅크</b> 전월세보증금 총정리 공인중개사 현직에서 일하다 보면 많은 분들이 <b>카카오</b><b>뱅크</b> 전월세보증금에 대해 문의하십니다. 잠깐 살펴보면 너무 단순하고 간편...",
+                "datetime": "2023-03-19T12:43:37.000+09:00",
+                "thumbnail": "https://search1.kakaocdn.net/argon/130x130_85_c/1mn5IQryX0g",
+                "title": "<b>카카오</b><b>뱅크</b> 전월세보증금 총정리",
+                "url": "http://hwshare07.com/48"
+            }
+        ],
+        "meta": {
+            "is_end": false,
+            "pageable_count": 800,
+            "total_count": 484586
+        },
+        "requestParam": {
+            "size": 1,
+            "query": "카카오뱅크",
+            "sort": "accuracy",
+            "page": 1
+        }
+    },
+    "searchRankingResult": [
+        {
+            "keyword": "카카오뱅크",
+            "searchCount": 10,
+            "ranking": 1
+        },
+        {
+            "keyword": "대출",
+            "searchCount": 7,
+            "ranking": 2
+        },
+        {
+            "keyword": "주택담보대출",
+            "searchCount": 5,
+            "ranking": 3
+        },
+        {
+            "keyword": "카카오톡",
+            "searchCount": 4,
+            "ranking": 4
+        },
+        {
+            "keyword": "집짓기",
+            "searchCount": 4,
+            "ranking": 4
+        },
+        {
+            "keyword": "스쿠버",
+            "searchCount": 3,
+            "ranking": 5
+        },
+        {
+            "keyword": "카카오",
+            "searchCount": 3,
+            "ranking": 5
+        },
+        {
+            "keyword": "너는내운명",
+            "searchCount": 2,
+            "ranking": 6
+        },
+        {
+            "keyword": "상환",
+            "searchCount": 2,
+            "ranking": 6
+        },
+        {
+            "keyword": "모기지",
+            "searchCount": 1,
+            "ranking": 7
+        }
+    ]
+}
+```
+  
+## 3. 사용 오픈 
+### 3.1. Hystrix
+#### 3.1.2 사용 목적
+  Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해.
