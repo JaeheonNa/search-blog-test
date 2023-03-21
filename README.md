@@ -3,6 +3,7 @@
 1. [카카오톡 블로그 검색을 위한 Combo 조회용 API](#1카카오톡-블로그-검색을-위한-Combo-조회용-API)
 2. [카카오톡 블로그 조회용 API](#2카카오톡-블로그-조회용-API)
 3. [사용 오픈 소스](#3사용-오픈-소스)
+4. [jar 파일 URL](#4jar-파일-URL)
 
 
 ## 1. 카카오톡 블로그 검색을 위한 Combo 조회용 API
@@ -163,3 +164,9 @@ curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&p
 ### 3.1. Hystrix
 #### 3.1.2 사용 목적
   Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해.
+
+## 4. jar 파일 URL
+    https://drive.google.com/file/d/12M5r1G1svz8TlSZsJEPHtdvvgmfDM10k/view?usp=share_link
+    
+    
+# 감사합니다.
