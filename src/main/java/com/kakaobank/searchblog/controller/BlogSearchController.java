@@ -1,6 +1,7 @@
 package com.kakaobank.searchblog.controller;
 
 import com.kakaobank.searchblog.common.H2DbRankingInsert;
+import com.kakaobank.searchblog.dto.KakaoResponse;
 import com.kakaobank.searchblog.dto.SearchRankResponseDto;
 import com.kakaobank.searchblog.dto.projection.BlogSearchRankingProjection;
 import com.kakaobank.searchblog.service.BlogSearchService;
@@ -39,7 +40,7 @@ public class BlogSearchController {
         /* 특정 API를 호출하는 Service 객체를 가져온다. */
         BlogSearchService blogSearchService = blogSearchServiceFactory.getBlogSearchService(apiType);
         /* Service 객체를 통해 API를 조회한다. */
-        Map blogSearchResult = blogSearchService.getBlogsFromApi(query, sort, page, size);
+        KakaoResponse blogSearchResult = blogSearchService.getBlogsFromApi(query, sort, page, size);
         /* 랭킹을 관리하는 Service 객체를 가져온다. */
         SearchRankingService searchRankingService = blogSearchServiceFactory.getSearchRankingService();
         /* 만약 1페이지로 검색 요청이 들어오면 검색어를 랭킹 정보 조회용 DB에 저장한다. */

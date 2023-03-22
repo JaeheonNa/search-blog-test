@@ -1,6 +1,8 @@
 package com.kakaobank.searchblog.serviceImpl;
 
+import com.kakaobank.searchblog.dto.KakaoResponse;
 import com.kakaobank.searchblog.service.BlogSearchService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,8 +12,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -23,37 +27,35 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
-    @Value("${api.naver.blog.reqUri}")
-    private String ReqUri;
-    private final RestTemplate restTemplate = new RestTemplate();
 
+    private WebClient webClient;
+
+    @PostConstruct
+    public void initWebClient() {
+        webClient = WebClient.builder()
+                .baseUrl("http://localhost:8082")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .build()
+                .mutate()
+                .build();
+    }
     @Override
-    public Map getBlogsFromApi(String query, String sort, int page, int size) {
-        Map response = null;
+    public KakaoResponse getBlogsFromApi(String query, String sort, int page, int size) {
+        KakaoResponse response = null;
 
-        if ("accuracy".equals(sort)) sort = "sim";
-        else sort = "date";
+        Mono<KakaoResponse> kakaoResponseMono = webClient.get().uri(uriBuilder1 ->
+                        uriBuilder1.path("/search/blog")
+                                .queryParam("query", query)
+                                .queryParam("sort", sort)
+                                .queryParam("page", page)
+                                .queryParam("size", size)
+                                .build()
+                ).accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(KakaoResponse.class);
 
-        UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(this.ReqUri)
-                .queryParam("query", query)
-                .queryParam("sort", sort)
-                .queryParam("size", size)
-                .queryParam("page", page)
-                .encode(StandardCharsets.UTF_8)
-                .build(false);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity entity = new HttpEntity<>(headers);
+        KakaoResponse kakaoResponse = kakaoResponseMono.share().block();
 
-        response = restTemplate.exchange(uriBuilder.toUri(), HttpMethod.GET, entity, Map.class).getBody();
-        Map<String, Object> requestParam = new HashMap<>();
-        requestParam.put("query", query);
-        requestParam.put("sort", sort);
-        requestParam.put("page", page);
-        requestParam.put("size", size);
-        requestParam.put("apiType", "naver");
-        response.put("requestParam", requestParam);
-
-        return response;
+        return kakaoResponse;
     }
 }
