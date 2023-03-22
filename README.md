@@ -8,6 +8,11 @@
 
 ## 1. 블로그 검색을 위한 Combo 조회용 API   
 ### 1.1. 기본 정보
+##### 참고 #####
+    반드시 아래 프로젝트 중 하나라도 구동 중이어야 동작합니다.
+    (https://github.com/JaeheonNa/search-blog-call-api-2)
+    (https://github.com/JaeheonNa/search-blog-call-api-2)
+
 |URL|HTTP 메서드|   
 |:--|:--------|   
 |localhost:8080/search/blog/combo|GET|   
