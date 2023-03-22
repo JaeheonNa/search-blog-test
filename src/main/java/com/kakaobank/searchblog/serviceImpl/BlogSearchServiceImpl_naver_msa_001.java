@@ -29,9 +29,9 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
     @Override
     public Map getBlogsFromApi(String query, String sort, int page, int size) {
-        Map response   = null;
+        Map response = null;
 
-        if("accuracy".equals(sort)) sort = "sim";
+        if ("accuracy".equals(sort)) sort = "sim";
         else sort = "date";
 
         UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(this.ReqUri)
@@ -46,7 +46,6 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
         HttpEntity entity = new HttpEntity<>(headers);
 
         response = restTemplate.exchange(uriBuilder.toUri(), HttpMethod.GET, entity, Map.class).getBody();
-        makeKakaoResponseFormat(response);
         Map<String, Object> requestParam = new HashMap<>();
         requestParam.put("query", query);
         requestParam.put("sort", sort);
@@ -56,33 +55,5 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
         response.put("requestParam", requestParam);
 
         return response;
-    }
-
-    private void makeKakaoResponseFormat(Map response) {
-        List<Map<String, Object>> documents = (List) response.get("items");
-        response.put("documents", documents);
-        for(Map document : documents){
-            document.put("url", document.get("link"));
-            document.put("contents", document.get("description"));
-            document.put("blogname", document.get("bloggername"));
-            document.put("thumbnail", null);
-            document.put("datetime", document.get("postdate"));
-            document.remove("link");
-            document.remove("description");
-            document.remove("bloggername");
-            document.remove("bloggerlink");
-            document.remove("postdate");
-        }
-        Map<String, Object> meta = new HashMap<>();
-        meta.put("total_count", response.get("total"));
-        meta.put("is_end", (Integer)response.get("start")*(Integer)response.get("display") >= (Integer)response.get("total"));
-        meta.put("pageable_count", null);
-        response.put("meta", meta);
-
-        response.remove("items");
-        response.remove("lastBuildDate");
-        response.remove("start");
-        response.remove("display");
-        response.remove("total");
     }
 }
