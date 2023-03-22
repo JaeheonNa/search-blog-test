@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 public interface SearchRankingService {
-    void insertSearchRanking(String query);
-    List<BlogSearchRankingProjection> getSearchRanking();
+    List<SearchRankResponseDto> getSearchRanking();
 
     void insertSearchRankingToRedis(String query);
     List<SearchRankResponseDto> getSearchRankingFromRedis();

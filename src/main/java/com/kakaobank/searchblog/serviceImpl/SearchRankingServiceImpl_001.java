@@ -24,16 +24,14 @@ public class SearchRankingServiceImpl_001 implements SearchRankingService {
     private final RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public void insertSearchRanking(String query){
-        BlogSearchKeywordRanking blogSearchKeywordRanking = new BlogSearchKeywordRanking(query);
-        blogSearchKeywordRankingRepository.save(blogSearchKeywordRanking);
-    }
-    @Override
-    public List<BlogSearchRankingProjection> getSearchRanking() {
+    public List<SearchRankResponseDto> getSearchRanking() {
         List<BlogSearchRankingProjection> response = blogSearchKeywordRankingRepository.findRankingList();
-        return response;
+        List<SearchRankResponseDto> rankingList = response.stream().map(BlogSearchRankingProjection::convertToResponseRankingDto).collect(Collectors.toList());
+        for(int i = 1; i <= rankingList.size(); i++) rankingList.get(i-1).setRank(i);
+        return rankingList;
     }
 
+    @Override
     public void insertSearchRankingToRedis(String query){
         Double score = 0.0;
         try {
@@ -45,14 +43,13 @@ public class SearchRankingServiceImpl_001 implements SearchRankingService {
 
     }
 
+    @Override
     public List<SearchRankResponseDto> getSearchRankingFromRedis() {
         String key = "ranking";
         ZSetOperations<String, String> ZSetOperations = redisTemplate.opsForZSet();
         Set<ZSetOperations.TypedTuple<String>> typedTuples = ZSetOperations.reverseRangeWithScores(key, 0, 9);  //score순으로 10개 보여줌
         List<SearchRankResponseDto> rankingList = typedTuples.stream().map(SearchRankResponseDto::convertToResponseRankingDto).collect(Collectors.toList());
-        for(int i = 1; i <= rankingList.size(); i++){
-            rankingList.get(i-1).setRank(i);
-        }
+        for(int i = 1; i <= rankingList.size(); i++) rankingList.get(i-1).setRank(i);
         return rankingList;
     }
 }
