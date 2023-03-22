@@ -1,18 +1,33 @@
 # search-blog-test
 ## 목차
+0. [개요](#0-개요)  
 1. [블로그 검색을 위한 Combo 조회용 API](#1-블로그-검색을-위한-Combo-조회용-API)  
 2. [블로그 조회용 API](#2-블로그-조회용-API)  
 3. [사용 오픈 소스](#3-사용-오픈-소스)  
 4. [jar 파일 URL](#4-jar-파일-URL)  
 
+## 0. 개요
+    블로그 검색 및 인기 검색어 순위 조회 API입니다.
+### 0.1. 동작 순서
+'''
+    1. client의 요청이 들어오면 우선 검색어를 H2에 저장합니다.
+    2. serviceFactory로부터 모듈에 요청을 보낼 객체를 받아옵니다.
+    3. kakao API에 요청을 보낼 모듈을 호출합니다.
+        3-1. kakaoAPI 요청 모듈이 kakaoAPI로 요청을 보낸 후 응답을 받아 응답합니다.
+        3-2. 만약 kakaoAPI 혹은 kakaoAPI 호출 모듈이 정상적인 상태가 아니거나 응답 시간이 느려지면 같은 방식으로 naverAPI 요청 모델을 통해 naverAPI로 요청합니다.
+    4. redis에 검색어를 저장합니다.
+    5. redis에서 10위까지 검색어 순위를 조회합니다.
+        5-1. redis가 비어있을 경우 H2를 조회합니다.
+    6. 검색 결과와 검색어 순위 결과를 Map에 담아 응답합니다.
+'''
 
-## 1. 블로그 검색을 위한 Combo 조회용 API   
-### 1.1. 기본 정보
 ##### 참고 #####
     반드시 아래 프로젝트 중 하나라도 구동 중이어야 동작합니다.
     (https://github.com/JaeheonNa/search-blog-call-api-2)
     (https://github.com/JaeheonNa/search-blog-call-api-2)
 
+## 1. 블로그 검색을 위한 Combo 조회용 API   
+### 1.1. 기본 정보
 |URL|HTTP 메서드|   
 |:--|:--------|   
 |localhost:8080/search/blog/combo|GET|   
