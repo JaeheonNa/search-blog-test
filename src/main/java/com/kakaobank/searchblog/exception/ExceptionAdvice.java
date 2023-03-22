@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    protected Map defaultException(Exception e) {
+    public Map defaultException(Exception e) {
         log.error(ExceptionUtils.getStackTrace(e));
         Map<String, Object> response = new HashMap<>();
         response.put("ExceptionName", e.getClass().getName());
@@ -29,14 +30,26 @@ public class ExceptionAdvice {
         return response;
     }
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ExceptionHandler(ResourceAccessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    protected Map missingServletRequestParameterException(Exception e) {
+    public Map resourceAccessException(Exception e){
         log.error(ExceptionUtils.getStackTrace(e));
         Map<String, Object> response = new HashMap<>();
         response.put("ExceptionName", e.getClass().getName());
-        response.put("ExceptionMessage", e.getMessage());
+        response.put("ExceptionMessage", "현재 검색 서비스가 원할하지 않습니다. 잠시 후 다시 시도해주세요.");
+        return response;
+    }
+
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public Map missingServletRequestParameterException(Exception e) {
+        log.error(ExceptionUtils.getStackTrace(e));
+        Map<String, Object> response = new HashMap<>();
+        response.put("ExceptionName", e.getClass().getName());
+        response.put("ExceptionMessage", "요청값이 올바르지 않습니다. 요청값을 올바르게 써주세요.");
         return response;
     }
 }
