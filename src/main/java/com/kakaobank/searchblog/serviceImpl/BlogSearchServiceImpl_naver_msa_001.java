@@ -37,8 +37,8 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
         UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(this.ReqUri)
                 .queryParam("query", query)
                 .queryParam("sort", sort)
-                .queryParam("display", size)
-                .queryParam("start", page)
+                .queryParam("size", size)
+                .queryParam("page", page)
                 .encode(StandardCharsets.UTF_8)
                 .build(false);
         HttpHeaders headers = new HttpHeaders();
