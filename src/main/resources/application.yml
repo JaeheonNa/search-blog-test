@@ -35,11 +35,11 @@ logging.level:
 api:
   kakao:
     blog:
-      reqUri: https://dapi.kakao.com/v2/search/blog
+      reqUri: http://localhost:8081/search/blog
     authorization: KakaoAK 7905d8d8bf472226bd6f6c0900b0b4b5
   naver:
     blog:
-      reqUri: https://openapi.naver.com/v1/search/blog.json
+      reqUri: http://localhost:8082/search/blog
     clientId: A6Kk8FWlTT51IPPsutdZ
     clientSecret: U6ez5hu5fu
 hystrix:

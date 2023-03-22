@@ -4,7 +4,10 @@ import com.kakaobank.searchblog.service.BlogSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -18,14 +21,10 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class BlogSearchServiceImpl_naver_001 implements BlogSearchService {
+public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
     @Value("${api.naver.blog.reqUri}")
     private String ReqUri;
-    @Value("${api.naver.clientId}")
-    private String clientId;
-    @Value("${api.naver.clientSecret}")
-    private String clientSecret;
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
@@ -43,8 +42,6 @@ public class BlogSearchServiceImpl_naver_001 implements BlogSearchService {
                 .encode(StandardCharsets.UTF_8)
                 .build(false);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Naver-Client-Id", this.clientId);
-        headers.add("X-Naver-Client-Secret" ,this.clientSecret);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity entity = new HttpEntity<>(headers);
 
