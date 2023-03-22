@@ -167,12 +167,16 @@ curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&p
   
 ## 3. 사용 오픈 소스
 ### 3.1. Hystrix
-#### 3.1.2 사용 목적
+#### 3.1.1 사용 목적
 Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해 사용했습니다.
 
 ### 3.2. redis
-#### 3.2.2 사용 목적
+#### 3.2.1 사용 목적
 인기 검색어 랭킹을 관리하기 위해 사용했습니다.
+    
+### 3.3 H2
+#### 3.3.1 사용 목적
+redis가 비어 있을 경우를 대비해 인기 검색어 랭킹을 관리하기 위해 사용해습니다.
 
 ## 4. jar 파일 URL    
     https://drive.google.com/drive/folders/1EDg2K_fZUoOv_zHIVx-hPOjbp1MkmZOQ?usp=sharing
