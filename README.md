@@ -108,53 +108,53 @@ curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&p
     "searchRankingResult": [
         {
             "keyword": "카카오뱅크",
-            "searchCount": 10,
-            "ranking": 1
+            "searchCount": 15,
+            "rank": 1
         },
         {
             "keyword": "대출",
-            "searchCount": 7,
-            "ranking": 2
+            "searchCount": 14,
+            "rank": 2
         },
         {
             "keyword": "주택담보대출",
-            "searchCount": 5,
-            "ranking": 3
+            "searchCount": 13,
+            "rank": 3
         },
         {
             "keyword": "카카오톡",
-            "searchCount": 4,
-            "ranking": 4
+            "searchCount": 11,
+            "rank": 4
         },
         {
             "keyword": "집짓기",
-            "searchCount": 4,
-            "ranking": 4
+            "searchCount": 9,
+            "rank": 5
         },
         {
             "keyword": "스쿠버",
-            "searchCount": 3,
-            "ranking": 5
+            "searchCount": 8,
+            "rank": 6
         },
         {
             "keyword": "카카오",
-            "searchCount": 3,
-            "ranking": 5
+            "searchCount": 5,
+            "rank": 7
         },
         {
             "keyword": "너는내운명",
-            "searchCount": 2,
-            "ranking": 6
+            "searchCount": 3,
+            "rank": 8
         },
         {
             "keyword": "상환",
             "searchCount": 2,
-            "ranking": 6
+            "rank": 9
         },
         {
             "keyword": "모기지",
             "searchCount": 1,
-            "ranking": 7
+            "rank": 10
         }
     ]
 }
@@ -163,10 +163,14 @@ curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&p
 ## 3. 사용 오픈     
 ### 3.1. Hystrix
 #### 3.1.2 사용 목적
-  Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해.
+  Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해 사용했습니다.
+
+### 3.2. redis
+#### 3.2.2 사용 목적
+    인기 검색어 랭킹을 관리하기 위해 사용했습니다.
 
 ## 4. jar 파일 URL    
-    https://drive.google.com/file/d/12M5r1G1svz8TlSZsJEPHtdvvgmfDM10k/view?usp=share_link
+    https://drive.google.com/drive/folders/1EDg2K_fZUoOv_zHIVx-hPOjbp1MkmZOQ?usp=sharing
     
     
 # 감사합니다.
