@@ -3,7 +3,6 @@ package com.kakaobank.searchblog.service;
 import com.kakaobank.searchblog.dto.KakaoResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 
 @Service
 public interface BlogSearchService {
