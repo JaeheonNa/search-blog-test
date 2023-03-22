@@ -14,7 +14,7 @@
     
     2. serviceFactory로부터 모듈에 요청을 보낼 객체를 받아옵니다.  
     
-    3. kakao API에 요청을 보낼 모듈을 호출합니다. (RestTemplate)  
+    3. kakao API에 요청을 보낼 모듈을 호출합니다. (WebClient)  
         3-1. kakaoAPI 요청 모듈이 kakaoAPI로 요청을 보낸 후 응답을 받아 응답합니다. (WebClient)   
         3-2. 만약 kakaoAPI 혹은 kakaoAPI 호출 모듈이 정상적인 상태가 아니거나 응답 시간이 느려지면 
              같은 방식으로 naverAPI 요청 모델을 통해 naverAPI로 요청합니다. (WebClient)    
