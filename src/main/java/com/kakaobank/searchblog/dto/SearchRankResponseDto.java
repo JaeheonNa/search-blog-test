@@ -9,16 +9,17 @@ import java.util.Objects;
 @Data
 @Builder
 public class SearchRankResponseDto {
-    String keyword;
-    Double count;
+    private String keyword;
+    private int searchCount;
+    private int rank;
 
     public static SearchRankResponseDto convertToResponseRankingDto(ZSetOperations.TypedTuple<String> rankInfo){
-        if (Objects.isNull(rankInfo)) {
-            return null;
-        }
+        if (Objects.isNull(rankInfo)) return null;
+        int count = rankInfo.getScore().intValue();
+
         return SearchRankResponseDto.builder()
                 .keyword(rankInfo.getValue())
-                .count(rankInfo.getScore())
+                .searchCount(count)
                 .build();
     }
 }
