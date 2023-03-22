@@ -89,12 +89,6 @@ curl -v -X GET "http://localhost:8080/search/blog/combo"
 |total_count|number|검색된 문서 수|   
 |pageable_count|number|total_count 중 노출 가능 문서 수, 네이버 검색 시 null|   
 |is_end|boolean|현재 페이지가 마지막 페이지인지 여부, 값이 false면 page를 증가시켜 다음 페이지를 요청할 수 있음|   
-|** requestParam(JSON Array) **|||   
-|query|string|검색어 요청값|   
-|page|number|결과 페이지 번호 요청값|   
-|sort|number|결과 문서 정렬 방식 요청값|   
-|size|number|한 페이지에 보여질 문서 수 요청값|   
-|apiType|string|요청 API 타입 요청값|   
 |** searchRankingResult(JSON Array) **|||   
 |keyword|string|인기 검색어, 최근 24시간 기준|   
 |searchCount|number|검색량, 최근 24시간 기준|   
