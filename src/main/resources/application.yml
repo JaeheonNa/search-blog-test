@@ -17,11 +17,7 @@ spring:
       driver-class-name: org.h2.Driver
       username: SA
       password:
-  redis:
-    data:
-      host: localhost
-      port: 6379
-#  expire:
+  #  expire:
 #    products: 5000
   jpa:
     hibernate:
@@ -30,6 +26,10 @@ spring:
       hibernate:
         show-sql: true
         format_sql : true
+  data:
+    redis:
+      host: localhost
+      port: 6379
 logging.level:
   org.hibernate.SQL: debug
 api:

@@ -1,5 +1,6 @@
 package com.kakaobank.searchblog.controller;
 
+import com.kakaobank.searchblog.dto.SearchRankResponseDto;
 import com.kakaobank.searchblog.dto.projection.BlogSearchRankingProjection;
 import com.kakaobank.searchblog.service.BlogSearchService;
 import com.kakaobank.searchblog.service.SearchRankingService;
@@ -41,10 +42,18 @@ public class BlogSearchController {
         /* 랭킹을 관리하는 Service 객체를 가져온다. */
         SearchRankingService searchRankingService = blogSearchServiceFactory.getSearchRankingService();
         /* 만약 1페이지로 검색 요청이 들어오면 검색어를 랭킹 정보 조회용 DB에 저장한다. */
-        if(page == 1) searchRankingService.insertSearchRanking(query);
-        /* 인기 검색어 랭킹 정보를 조회한다. */
-        List<BlogSearchRankingProjection> searchRankingResult = searchRankingService.getSearchRanking();
-        /* 조회 결과를 Map에 담아 return 한다. */
+
+        if(page == 1) searchRankingService.insertSearchRankingToRedis(query);
+        List<SearchRankResponseDto> searchRankingResult = searchRankingService.getSearchRankingFromRedis();
+
+//
+//
+//            if(page == 1) searchRankingService.insertSearchRanking(query);
+//            /* 인기 검색어 랭킹 정보를 조회한다. */
+//            List<BlogSearchRankingProjection> searchRankingResult = searchRankingService.getSearchRanking();
+//            /* 조회 결과를 Map에 담아 return 한다. */
+//
+//
         response.put("blogSearchResult", blogSearchResult);
         response.put("searchRankingResult", searchRankingResult);
         return response;

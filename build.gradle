@@ -45,6 +45,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
     implementation 'com.h2database:h2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core:6.2.3.RELEASE'
 }
 
 dependencyManagement {
