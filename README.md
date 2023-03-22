@@ -165,7 +165,7 @@ curl -v -X GET "http://localhost:8080/search/blog?query=카카오뱅크&size=1&p
 }
 ```
   
-## 3. 사용 오픈     
+## 3. 사용 오픈 소스
 ### 3.1. Hystrix
 #### 3.1.2 사용 목적
 Kakao 블로그 검색 API 서버 장애 발생 시, 자동으로 Naver 블로그 검색 API 호출토록 하기 위해 사용했습니다.
