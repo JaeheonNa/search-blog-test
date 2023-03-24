@@ -24,8 +24,6 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
     @Override
     public KakaoResponse getBlogsFromApi(String query, String sort, int page, int size) {
-        KakaoResponse response = null;
-
         Mono<KakaoResponse> kakaoResponseMono = webClient.get().uri(uriBuilder1 ->
                         uriBuilder1.path("/search/blog")
                                 .queryParam("query", query)
@@ -36,9 +34,6 @@ public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
                 ).accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(KakaoResponse.class);
-
-        KakaoResponse kakaoResponse = kakaoResponseMono.share().block();
-
-        return kakaoResponse;
+        return kakaoResponseMono.share().block();
     }
 }

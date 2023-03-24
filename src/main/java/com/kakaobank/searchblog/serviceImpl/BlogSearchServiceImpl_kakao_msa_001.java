@@ -28,7 +28,6 @@ public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
     @Override
     @HystrixCommand(fallbackMethod = "getBlogsFromNaverApi")
     public KakaoResponse getBlogsFromApi(String query, String sort, int page, int size){
-
         Mono<KakaoResponse> kakaoResponseMono = webClient.get().uri(uriBuilder1 ->
                         uriBuilder1.path("/search/blog")
                                 .queryParam("query", query)
@@ -40,9 +39,7 @@ public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
                 .retrieve()
                 .bodyToMono(KakaoResponse.class);
 
-        KakaoResponse kakaoResponse = kakaoResponseMono.share().block();
-
-        return kakaoResponse;
+        return kakaoResponseMono.share().block();
     }
 
     public KakaoResponse getBlogsFromNaverApi(String query, String sort, int page, int size, Throwable t) {
