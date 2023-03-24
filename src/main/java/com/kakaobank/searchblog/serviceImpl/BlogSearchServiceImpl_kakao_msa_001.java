@@ -7,6 +7,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,9 @@ import reactor.core.publisher.Mono;
 public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
     private final BlogSearchServiceImpl_naver_msa_001 blogSearchServiceImplNaverMsa001;
 
+    @Autowired
+    @Qualifier("kakaoWebClient")
     private WebClient webClient;
-
-    @PostConstruct
-    public void initWebClient() {
-        webClient = WebClient.builder()
-                .baseUrl("http://localhost:8081")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .build()
-                .mutate()
-                .build();
-    }
 
     @Override
     @HystrixCommand(fallbackMethod = "getBlogsFromNaverApi")

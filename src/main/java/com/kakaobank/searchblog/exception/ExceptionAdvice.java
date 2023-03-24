@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,16 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Map resourceAccessException(Exception e){
+        log.error(ExceptionUtils.getStackTrace(e));
+        Map<String, Object> response = new HashMap<>();
+        response.put("ExceptionName", e.getClass().getName());
+        response.put("ExceptionMessage", "현재 검색 서비스가 원할하지 않습니다. 잠시 후 다시 시도해주세요.");
+        return response;
+    }
+
+    @ExceptionHandler(WebClientRequestException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map webClientRequestException(Exception e){
         log.error(ExceptionUtils.getStackTrace(e));
         Map<String, Object> response = new HashMap<>();
         response.put("ExceptionName", e.getClass().getName());

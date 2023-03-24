@@ -5,6 +5,8 @@ import com.kakaobank.searchblog.service.BlogSearchService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,10 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
-
+    @Autowired
+    @Qualifier("naverWebClient")
     private WebClient webClient;
 
-    @PostConstruct
-    public void initWebClient() {
-        webClient = WebClient.builder()
-                .baseUrl("http://localhost:8082")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .build()
-                .mutate()
-                .build();
-    }
     @Override
     public KakaoResponse getBlogsFromApi(String query, String sort, int page, int size) {
         KakaoResponse response = null;
