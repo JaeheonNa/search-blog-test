@@ -21,6 +21,8 @@ import reactor.core.publisher.Mono;
 public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
     private final BlogSearchServiceImpl_naver_msa_001 blogSearchServiceImplNaverMsa001;
 
+    // Qualifier로 구분하는 빈은 생성자 주입 방식으로 DI되지 않음. (왜일까)
+    // 반드시 Autowired를 써야 함.
     @Autowired
     @Qualifier("kakaoWebClient")
     private WebClient webClient;

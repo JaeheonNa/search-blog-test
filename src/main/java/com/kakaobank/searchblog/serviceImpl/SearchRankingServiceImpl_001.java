@@ -40,7 +40,6 @@ public class SearchRankingServiceImpl_001 implements SearchRankingService {
             log.error(ExceptionUtils.getStackTrace(e));
         }
         redisTemplate.opsForZSet().incrementScore("ranking", query, score);
-
     }
 
     @Override

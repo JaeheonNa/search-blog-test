@@ -27,11 +27,6 @@ public class InsertRankingServiceImpl_001 implements Runnable {
         BlogSearchKeywordRanking blogSearchKeywordRanking = new BlogSearchKeywordRanking(query);
         blogSearchKeywordRankingRepository.save(blogSearchKeywordRanking);
     }
-    public List<BlogSearchRankingProjection> getSearchRanking() {
-        List<BlogSearchRankingProjection> response = blogSearchKeywordRankingRepository.findRankingList();
-        return response;
-    }
-
     public void setQuery(String query){
         this.query = query ;
     }

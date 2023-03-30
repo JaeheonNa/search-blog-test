@@ -18,6 +18,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BlogSearchServiceImpl_naver_msa_001 implements BlogSearchService {
 
+    // Qualifier로 구분하는 빈은 생성자 주입 방식으로 DI되지 않음. (왜일까)
+    // 반드시 Autowired를 써야 함.
     @Autowired
     @Qualifier("naverWebClient")
     private WebClient webClient;

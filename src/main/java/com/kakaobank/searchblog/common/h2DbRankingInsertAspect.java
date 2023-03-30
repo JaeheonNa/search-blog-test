@@ -20,6 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class h2DbRankingInsertAspect {
 
+    // Qualifier로 구분하는 빈은 생성자 주입 방식으로 DI되지 않음. (왜일까)
+    // 반드시 Autowired를 써야 함.
     @Qualifier("h2DbRankingInsertThreadExecutor")
     @Autowired
     private TaskExecutor h2DbRanking_Insert_Thread;
