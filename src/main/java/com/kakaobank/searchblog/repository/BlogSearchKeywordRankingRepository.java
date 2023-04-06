@@ -23,7 +23,4 @@ public interface BlogSearchKeywordRankingRepository extends JpaRepository<BlogSe
             "             group by keyword) a " +
             "       order by ranking " +
             "       limit 10", nativeQuery = true)
-    List<BlogSearchRankingProjection> findRankingList();
-
-
-}
+    List<BlogSearchRankingProjection> findRankingList();}

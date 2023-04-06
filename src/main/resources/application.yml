@@ -13,7 +13,7 @@ spring:
   datasource:
     hikari:
       platform: h2
-      jdbc-url: jdbc:h2:tcp://localhost/~/kakaobank_test # jdbc:h2:mem:testdb #  -- In-memory 방식
+      jdbc-url: jdbc:h2:mem:testdb # jdbc:h2:tcp://localhost/~/kakaobank_test
       driver-class-name: org.h2.Driver
       username: SA
       password:

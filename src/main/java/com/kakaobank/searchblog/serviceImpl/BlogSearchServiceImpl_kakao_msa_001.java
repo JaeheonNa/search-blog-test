@@ -3,6 +3,7 @@ package com.kakaobank.searchblog.serviceImpl;
 import com.kakaobank.searchblog.dto.KakaoResponse;
 import com.kakaobank.searchblog.service.BlogSearchService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
+
+import java.time.Duration;
 
 @Slf4j
 @Service
@@ -28,8 +32,12 @@ public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
     private WebClient webClient;
 
     @Override
-    @HystrixCommand(fallbackMethod = "getBlogsFromNaverApi")
+    @HystrixCommand(
+            fallbackMethod = "getBlogsFromNaverApi",
+            commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000")})
     public KakaoResponse getBlogsFromApi(String query, String sort, int page, int size){
+
+        log.info("시작");
         Mono<KakaoResponse> kakaoResponseMono = webClient.get().uri(uriBuilder1 ->
                         uriBuilder1.path("/search/blog")
                                 .queryParam("query", query)
@@ -39,9 +47,10 @@ public class BlogSearchServiceImpl_kakao_msa_001 implements BlogSearchService {
                                 .build()
                 ).accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(KakaoResponse.class);
+                .bodyToMono(KakaoResponse.class)
+                .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(3)));
 
-        return kakaoResponseMono.share().block();
+        return kakaoResponseMono.block();
     }
 
     public KakaoResponse getBlogsFromNaverApi(String query, String sort, int page, int size, Throwable t) {

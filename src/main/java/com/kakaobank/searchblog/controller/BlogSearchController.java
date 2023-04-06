@@ -44,9 +44,9 @@ public class BlogSearchController {
         List<SearchRankResponseDto> searchRankingResult = searchRankingService.getSearchRankingFromRedis();
 
         /* 만약 레디스가 비어있으면 DB 조회 */
-        if(Objects.isNull(searchRankingResult) || searchRankingResult.isEmpty()){
+//        if(Objects.isNull(searchRankingResult) || searchRankingResult.isEmpty()){
             searchRankingResult = searchRankingService.getSearchRanking();
-        }
+//        }
 
         response.put("blogSearchResult", blogSearchResult);
         response.put("searchRankingResult", searchRankingResult);
